@@ -18,7 +18,7 @@ reg     signed  [ N-1 :  0 ] r_quotient = {N{1'b0}};
 assign quotient = r_quotient;
 
 reg		signed  [ M-1 :  0 ] divident_copy = {M{1'b0}};
-reg 	signed  [ M-1 :  0 ] divider_copy = {M{1'b0}};
+reg 	signed  [ M-1 :  0 ] divider_copy = {M{1'b0}};;
 
 wire	signed  [ M-1 :  0 ] w_diff = divident_copy - divider_copy;
 reg         	[   5 :  0 ] cnt = 6'b0;

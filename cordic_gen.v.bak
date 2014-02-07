@@ -1,5 +1,5 @@
 module cordic_gen
-    #(parameter INPUT_CLK = 32'd10000000, parameter OUTPUT_SAMPLE_RATE = 20'd8000)
+    #(parameter INPUT_CLK = 10000000, parameter OUTPUT_SAMPLE_RATE = 8000)
     (
     input       wire                clk,
     input       wire    [ 15 :  0 ] out_freq,
@@ -8,7 +8,7 @@ module cordic_gen
     output      wire    [ 15 :  0 ] cos
     );
 
-localparam TWO_PI = 20'd524287;
+localparam TWO_PI = 524287;
 
 reg             [ 19 :  0 ] ARG = 20'b0;
 reg             [ 31 :  0 ] temp_ARG = 32'b0;
@@ -88,5 +88,6 @@ cordic_phase u0
 
 assign sin = w_im_out;
 assign cos = w_re_out;
+assign phase = my_arg;
 
 endmodule
