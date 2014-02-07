@@ -2,7 +2,7 @@ module divider
     #(parameter N = 32)
     (
     input       wire                    clk,
-//    input       wire                    start,
+    input       wire                    start,
     input       wire    [ N-1 :  0 ]    divident,
     input       wire    [ N-1 :  0 ]    divider,
     output      wire    [ N-1 :  0 ]    quotient,
@@ -24,27 +24,31 @@ wire	signed  [ M-1 :  0 ] w_diff = divident_copy - divider_copy;
 reg         	[   5 :  0 ] cnt = 6'b0;
 
 assign reminder = divident_copy[N-1:0];
-assign ready = cnt == 0;
+assign ready = cnt == 6'b0;
 
 always@(posedge clk)
-if(ready)
 begin
-    cnt <= 6'd32;
-    r_quotient <= {N{1'b0}};
-    divident_copy <= TWO_PI*divident;//{{N{1'b0}}, divident};
-    divider_copy <= {1'b0, divider, {N-1{1'b0}}};
-end
-else
-begin
-    cnt <= cnt - 1'b1;
-    divider_copy <= divider_copy >> 1;
-    if(!w_diff[63])
+    if(ready && start)
     begin
-        divident_copy <= w_diff;
-        r_quotient <= {quotient[30:0], 1'b1};
+        cnt <= 6'd32;
+        r_quotient <= {N{1'b0}};
+        divident_copy <= TWO_PI*divident;//{{N{1'b0}}, divident};
+        divider_copy <= {1'b0, divider, {N-1{1'b0}}};
     end
-    else
-        r_quotient <= {quotient[30:0], 1'b0};
+    
+    if(!ready)
+    begin
+        cnt <= cnt - 1'b1;
+        divider_copy <= divider_copy >> 1;
+        if(!w_diff[63])
+        begin
+            divident_copy <= w_diff;
+            r_quotient <= {quotient[30:0], 1'b1};
+        end
+        else
+            r_quotient <= {quotient[30:0], 1'b0};
+    end
+
 end
 
 endmodule

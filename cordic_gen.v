@@ -20,9 +20,12 @@ reg             [ 31 :  0 ] temp_REM = 32'b0;
 wire    [ 31 :  0 ] w_QUO;
 wire    [ 31 :  0 ] w_REM;
 wire                w_ready;
+reg                 r_start = 1'b0;
+reg     [ 15 :  0 ] r_freq = 16'b0;
 divider #32 u1
     (
     .clk(clk),
+    .start(r_start),
     .divident({16'b0, out_freq}),
     .divider({16'b0, discr_freq}),
     .quotient(w_QUO),
@@ -31,10 +34,16 @@ divider #32 u1
 );
 
 always@(posedge clk)
-if(w_ready)
 begin
-    temp_ARG <= w_QUO;
-    temp_REM <= w_REM;
+    r_freq <= out_freq;
+    r_start <= 1'b0;
+    if(r_freq != out_freq)
+        r_start <= 1'b1;
+    if(w_ready)
+    begin
+        temp_ARG <= w_QUO;
+        temp_REM <= w_REM;
+    end
 end
 
 //-------------//
