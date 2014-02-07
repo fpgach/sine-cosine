@@ -20,7 +20,7 @@ reg             [ 31 :  0 ] temp_REM = 32'b0;
 wire    [ 31 :  0 ] w_QUO;
 wire    [ 31 :  0 ] w_REM;
 wire                w_ready;
-divider u1
+divider #32 u1
     (
     .clk(clk),
     .divident({16'b0, out_freq}),
