@@ -6,3 +6,5 @@ Verilog implemetation of quadrature generator, which uses CORDIC for calculation
 ===========
 
 Реализация генератора квадратур на Verilog. В этом проекте использован метод CORDIC для расчета синуса и косинуса заданного угла, а так же реализован алгоритм деления двух регистровых переменных. 
+
+С деталями реализации можно познакомиться http://fpgach.blogspot.ru/2014/02/blog-post.html
